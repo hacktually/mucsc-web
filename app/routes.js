@@ -1,7 +1,7 @@
 module.exports = function(app){
 	
 	app.get('/', function(req,res){
-		res.send('hei!')
+		res.render('index', {});
 	});
 	
 	// app.get('/add_data', function(req,res){

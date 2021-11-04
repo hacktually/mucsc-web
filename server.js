@@ -1,17 +1,18 @@
 var http = require('http');
 var express = require('express');
-
+var cookieParser= require('cookie-parser');
 var app = express();
-var server = http.createServer(app);
-// var bodyParser = require('body-parser');
+var passport = require('passport');
+// var server = http.createServer(app);
 
-// var engines = require('consolidate');
-// app.engine('html', engines.hogan);
-// app.set('views', __dirname +'/templates');
-// app.use(express.static(__dirname + '/public'));
-// app.use(bodyParser.urlencoded({extended: false}));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname +'/templates');
+app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
 
-// require('/app/routes.js')(app);
+require('./app/routes.js')(app, passport);
 
-server.listen(8000);
-console.log("Listening at http:localhost:8000");
+var server = app.listen(8000, function() {
+    console.log('Listening on 8080');
+});
