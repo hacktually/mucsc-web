@@ -3,6 +3,8 @@ var express = require('express');
 var cookieParser= require('cookie-parser');
 var app = express();
 var passport = require('passport');
+const env         = require('dotenv')
+env.config();
 // var server = http.createServer(app);
 
 app.engine('html', require('ejs').renderFile);

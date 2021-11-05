@@ -1,7 +1,16 @@
+var conn	   = require('./db-ops').connection
+
 module.exports = function(app){
 	
 	app.get('/', function(req,res){
 		res.render('index', {});
+	});
+	app.get('/dbtest', function(req,res){
+		if(conn.state != 'disconnected') {
+			console.log('All connected!')
+		} else {
+			console.log('dead as hell')
+		}
 	});
 	
 	// app.get('/add_data', function(req,res){
