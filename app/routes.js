@@ -1,33 +1,40 @@
-var conn	   = require('./db-ops').connection
+// require('db-ops.js').connection;
+// var middleware = require('./middleware.js');
+//const passport = require('passport');
+var express	= require('express');
+//var app		= express();
+var middleware = require('./middleware.js');
 
-module.exports = function(app){
-	
-	app.get('/', function(req,res){
-		res.render('index', {});
-	});
-	app.get('/dbtest', function(req,res){
-		if(conn.state != 'disconnected') {
-			console.log('All connected!')
-		} else {
-			console.log('dead as hell')
-		}
+module.exports = function(router,app,passport){
+	router.get('/', function(req, res) {
+		res.send('kek!');
 	});
 	
-	// app.get('/add_data', function(req,res){
-	// 	conn.query("SELECT num_inputs FROM project_meta;", function(err, inputs){
-	// 		res.render('add_data.html', {inputs: inputs[0].num_inputs});
-	// 	});
-	// });
-
-	// app.post('/insert_data', function(req,res){
-	// 	console.log("Connection made.");
-	// 	//conn.query("INSERT INTO project_meta (project_name, num_inputs, meta_data) VALUES (?,?,?);", [req.body.col0, req.body.col1, req.body.col2]);
-	// });
-		
-
-	// app.get('/map_vis', function(req,res){
-	// 	res.render('map_vis.html');
-	// });
+	app.get('/login', (req, res) => {
+		res.render('login.ejs');
+	});
+	
+	// passport.authenticate middleware is used here to authenticate the request
+	app.get('/auth/google', passport.authenticate('google', {
+		scope: ['profile'] // Used to specify the required data
+	}));
+	
+	// The middleware receives the data from Google and runs the function on Strategy config
+	app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+		res.redirect('/secret');
+	});
+	
+	// Secret route
+	app.get('/secret', middleware.isUserAuthenticated, (req, res) => {
+		res.send('You have reached the secret route');
+	});
+	
+	// Logout route
+	app.get('/logout', (req, res) => {
+		req.logout(); 
+		res.redirect('/');
+	});
 
 
 };
+

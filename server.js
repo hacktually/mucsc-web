@@ -1,20 +1,35 @@
-var http = require('http');
 var express = require('express');
-var cookieParser= require('cookie-parser');
 var app = express();
-var passport = require('passport');
-const env         = require('dotenv')
-env.config();
-// var server = http.createServer(app);
+var bodyParser = require('body-parser');
+var favicon = require('serve-favicon')
+var path = require('path')
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20');
+const cookieSession = require('cookie-session');
+const dotenv = require('dotenv');
+dotenv.config()
 
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
+    keys: ['ohhellyeah']
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.set('views', __dirname +'/templates');
-app.use(express.static(__dirname + '/public'));
-app.use(cookieParser());
 
-require('./app/routes.js')(app, passport);
+app.use(favicon(path.join(__dirname, '/public', 'favicon.ico')))
 
-var server = app.listen(8000, function() {
-    console.log('Listening on 8080');
-});
+var port = process.env.PORT || 3000;
+const router = express.Router();
+
+require('./config/passport')(passport);
+require('./app/routes.js')(router, app, passport);
+
+app.use('/', router);
+app.listen(port);
+console.log('Listening on port ' + port);
