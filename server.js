@@ -10,8 +10,8 @@ const dotenv = require('dotenv');
 dotenv.config()
 
 app.use(cookieSession({
-    maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
-    keys: ['ohhellyeah']
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.keyVal]
 }));
 
 app.use(passport.initialize());
@@ -19,6 +19,7 @@ app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.json());
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 

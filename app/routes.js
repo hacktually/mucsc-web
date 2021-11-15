@@ -1,40 +1,60 @@
-// require('db-ops.js').connection;
-// var middleware = require('./middleware.js');
-//const passport = require('passport');
-var express	= require('express');
-//var app		= express();
+var conn = require('./db-ops.js').connection;
 var middleware = require('./middleware.js');
 
 module.exports = function(router,app,passport){
-	router.get('/', function(req, res) {
-		res.send('kek!');
+	app.get('/', function(req, res) {
+		res.render('/index');
 	});
-	
-	app.get('/login', (req, res) => {
-		res.render('login.ejs');
+	app.get('/blog', function(req, res){
+		res.render('/blog');
 	});
-	
-	// passport.authenticate middleware is used here to authenticate the request
+	app.get('/about', function(req, res){
+		res.render('/about');
+	});
+	app.get('/scoreboard', function(req, res){
+		res.render('/scoreboard');
+	});
+	app.get('/resources', function(req, res){
+		res.render('/resources');
+	});
+
+	app.get('/adminDash', middleware.isUserAuthenticated, middleware.isAdminUser, function(req, res) {
+		res.render('/adminDash', {
+			user: req.user
+		});
+	});
+	app.get('/dashboard', middleware.isUserAuthenticated, function(req, res) {
+		res.render('/dashboard', {
+			user: req.user
+		});
+	});
+
 	app.get('/auth/google', passport.authenticate('google', {
-		scope: ['profile'] // Used to specify the required data
+		scope: ['email', 'profile'] 
 	}));
-	
-	// The middleware receives the data from Google and runs the function on Strategy config
 	app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-		res.redirect('/secret');
+		conn.query(`SELECT * FROM mucsc_users WHERE google_id=?`, [req.user.id], function(err, rows){
+			if (rows.length == 0) {
+				conn.query(`INSERT INTO mucsc_users(google_id, email, fn, ln, img) VALUES (?,?,?,?,?);`, [req.user.id, req.user.email, req.user.name.givenName, req.user.name.familyName, req.user.picture], function(err, rows){
+					if (err) { res.send(err); }
+				});
+			} else {
+				conn.query(`UPDATE mucsc_users SET email=?, SET fn=?, SET ln=?, SET img=? WHERE google_id=?;`, 
+				[req.user.email, req.user.name.givenName, req.user.name.familyName, req.user.picture, req.user.id], function(err, rows){
+					if (err) { res.send(err); }
+				});
+				res.redirect('/secret');
+			}
+		});
 	});
 	
-	// Secret route
 	app.get('/secret', middleware.isUserAuthenticated, (req, res) => {
-		res.send('You have reached the secret route');
+		res.send(req.user.picture);
 	});
 	
-	// Logout route
 	app.get('/logout', (req, res) => {
 		req.logout(); 
 		res.redirect('/');
 	});
-
-
 };
 
