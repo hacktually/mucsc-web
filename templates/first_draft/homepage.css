@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'uav_osd_sans_monoregular';
+    src: url('fonts/uav-osd-sans-mono-webfont.woff2') format('woff2'),
+         url('fonts/uav-osd-sans-mono-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ubuntubold';
+    src: url('fonts/ubuntu-bold-webfont.woff2') format('woff2'),
+         url('fonts/ubuntu-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ubuntumedium';
+    src: url('fonts/ubuntu-medium-webfont.woff2') format('woff2'),
+         url('fonts/ubuntu-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.eventlist{
+	margin-left: 0;
+	padding-left: 15px;
+}
+
+.eventlist li {
+	margin-top: 30px;
+}
+
+.datesqr{
+	background-color: #BA0005;
+}
+
+.datesqr h2 {
+	color: white;
+	font-family: 'ubuntubold';
+	font-size: 42px;
+	font-weight:normal;
+	font-style:normal;
+	text-align: center;
+	padding: 10px;
+}
+
+.eventsqr{
+	background-color: rgb(255,255,255,0.8);
+	
+}
+
+.eventsqr h2{
+	color: #BA0005;
+	font-family: 'ubuntubold';
+	font-size: 22px;
+	font-weight:normal;
+	font-style:normal;
+	padding: 10px;
+}
+
+.wrap{
+	margin: 0px 120px;
+}
+
+#title {
+	color: white;
+	font-family: 'uav_osd_sans_monoregular';
+	font-size: 55px;
+	font-weight:normal;
+	font-style:normal;
+}
+
+#subtitle {
+	color: white;
+	font-family: 'ubuntumedium';
+	font-size: 41px;
+	font-weight:normal;
+	font-style:normal;
+}
+
+#subsubtitle {
+	color: white;
+	font-family: 'ubuntumedium';
+	font-size: 23px;
+	font-weight:normal;
+	font-style:normal;
+}
+
+.navbar-custom {
+    background-color: #BA0005;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: white;
+	font-family: 'uav_osd_sans_monoregular';
+	font-size: 2.0;
+	font-weight:normal;
+	font-style:normal;
+}
+
+.navbar a{
+    font-family:'ubuntumedium';
+	font-size: 20px;
+	color: white;
+	padding-left: 10px;
+	list-style: none;
+	margin: 0 30px;
+	padding: 0;
+	display: flex;
+	justify-content: space-around;
+}
+
+.footer {
+  overflow: hidden;
+  background-color: #BA0005;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer p {
+	font-size: 10px;
+	text-align: center;
+	padding-top: 7px;
+	color: white;
+	font-family: Georgia, serif;
+}
+
+.card {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.bg-primary {
+    background-color: #BA0005!important;
+}
+.fa {
+  padding: 5px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 5px;
+  border-radius: 50%;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-linkedin {
+  background: white;
+  color: #BA0005;
+}
+
+
